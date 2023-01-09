@@ -1,0 +1,8 @@
+---
+- name: this plabook creates a user
+  hosts: all
+  become: true
+  tasks:
+    - name: creating a user rohith
+      user: 
+        name: akash

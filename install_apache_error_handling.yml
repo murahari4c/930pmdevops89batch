@@ -1,0 +1,35 @@
+---
+- name: this plybook install httpd
+  hosts: all
+  become: true
+  tasks:
+  - name: install httpd package
+    yum:
+      name: httpd
+      state: installed
+    when: ansible_os_family == "redhat"
+
+  - name: start httpd service
+    service:
+      name: http---  # giving bug untensionaly
+      state: started
+    when: ansible_os_family == "debian"
+    ignore_errors: yes
+
+  - name: install apache2 package
+    apt:
+      name: apache2
+      state: present
+    when: ansible_os_family == "debian"
+
+  - name: start apache2 service
+    service: 
+      name: apache2
+      state: started
+    when: ansible_os_family == "debian"
+
+  - name: copy index.html
+    copy: 
+      src: /home/ansadmin/index.html
+      dest: /var/www/html
+      mode: 0666
